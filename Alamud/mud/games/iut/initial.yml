@@ -506,7 +506,6 @@ events:
         - type  : ChangePropEffect
           modifs: -object:light-on
 
-<<<<<<< HEAD
 id: cafeteria-000
 type: Location
 props:
@@ -578,7 +577,6 @@ exits:
         observer: "{{ actor.name }} vous quitte et sort de la cafeteria."
       leave-portal:
         observer: "{{ actor.name }} vous rejoint dans la cafeteria."
-=======
 
 ---
   id: carotte-000
@@ -609,4 +607,3 @@ exits:
         actor   : "Vous revenez dans le monde réel en face de la licorne."
         observer: "{{ actor.name }} revient dans le monde réel."
 ---
->>>>>>> 1edb7d8c57cfbc19d9a03bb496a8ecfe94d5caa2
