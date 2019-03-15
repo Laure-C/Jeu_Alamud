@@ -429,3 +429,75 @@ events:
       effects:
         - type  : ChangePropEffect
           modifs: -object:light-on
+
+id: cafeteria-000
+type: Location
+props:
+  - lightable
+  - takable
+names   :
+  - lampe
+  - torche
+  - lampe-torche
+gender: fem
+events:
+  info:
+    actor:
+      - props: =lampe-000:light-on
+        data : "Une lampe-torche allumée."
+      - data : "Une lampe-torche éteinte."
+  look:
+    actor:
+      - props: object:light-on
+        data : "Une lampe-torche allumée."
+      - data : "Une lampe-torche éteinte."
+  light-on:
+    - props : object:light-on
+      actor : "La lampe est déjà allumée."
+    - actor : "Vous allumez votre lampe-torche."
+      observer: |
+        {{ actor.name }} allume sa lampe-torche.
+      effects:
+        - type  : ChangePropEffect
+          modifs: object:light-on
+  light-off:
+    - props : -object:light-on
+      actor : "La lampe est déjà éteinte."
+    - actor : "Vous éteignez votre lampe-torche."
+      observer: |
+        {{ actor.name }} éteind sa lampe-torche.
+      effects:
+        - type  : ChangePropEffect
+          modifs: -object:light-on
+events:
+  info:
+    actor: "Cafeteria de l'IUT."
+  look:
+    actor: |
+      Vous êtes dans la cafetaria de l'IUT.
+      Au sud-ouest, se trouve la porte d'entrée de la cafeteria. Un bar 
+      vous permettra de commander à manger. 
+
+id: portal-parking-cafeteria-000
+type: Portal
+exits:
+  - id: parking-000-haut
+    location: parking-000
+    direction: haut
+    events:
+      enter-portal:
+        actor   : "Vous entrez dans la cafeteria."
+        observer: "{{ actor.name }} entre dans la cafeteria."
+      leave-portal:
+        observer: |
+          {{ actor.name }} sort de la cafeteria et vous rejoint
+          sur le parking de l'IUT.
+  - id: cafeteria-000-bas
+    location: cafeteria-000
+    direction: bas
+    events:
+      enter-portal:
+        actor   : "Vous sortez prudemment de la cafeteria."  
+        observer: "{{ actor.name }} vous quitte et sort de la cafeteria."
+      leave-portal:
+        observer: "{{ actor.name }} vous rejoint dans la cafeteria."
