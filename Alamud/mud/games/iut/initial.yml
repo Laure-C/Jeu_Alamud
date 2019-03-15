@@ -11,7 +11,83 @@ events:
       Vous êtes sur le parking de l'IUT.  Au nord-est, se trouve
       l'entrée du département info.  Il y a un arbre près de vous.
       Les branches les plus basses sont à portée de main.
+
 ---
+id: Bois-000
+type: Location
+contains:
+  - carotte-000
+events:
+  info:
+    actor: "Bois en face de l'IUT."
+    observer: "{{ actor.name }} est dans le bois en face de l'IUT."
+  look:
+    actor: |
+      Vous êtes dans le petit bois en face de l'IUT.
+      Il y a un sentier là ou les gens passent a l'est. 
+      Au Nord il y a le parking de l'IUT et au Sud il y à la station TOTAL.
+parts:
+  - sentier-000
+---
+id: portal-parking-bois-000
+type: Portal
+exits:
+  - id: parking-000-haut
+    location: parking-000
+    direction: sud
+    events:
+      enter-portal:
+        actor   : "Vous vous dirigez vers le bois."
+        observer: "{{ actor.name }} traverse la rue pour aller dans le bois."
+      leave-portal:
+        observer: |
+          {{ actor.name }} sort du bois et rejoint
+          sur le parking de l'IUT.
+  - id: bois-000
+    location: bois-000
+    direction: nord
+    events:
+      enter-portal:
+        actor   : "Vous sortez du bois et rejoignez le parking"  
+        observer: "{{ actor.name }} vous quitte et rejoint le parking."
+      leave-portal:
+        observer: "{{ actor.name }} vous rejoint dans le bois."
+---
+
+id: sentier-000
+type: Container
+name: sentier
+events:
+  look:
+    actor: |
+      C'est un petit sentier dans le bois.
+contains:
+  - licorne-000
+---
+id: portal-bois-sentier-000
+type: Portal
+exits:
+  - id: bois-000-
+    location: bois-000
+    direction: est
+    events:
+      enter-portal:
+        actor   : "Vous vous dirigez vers le sentier."
+        observer: "{{ actor.name }} se dirige vers le sentier."
+      leave-portal:
+        observer: |
+          {{ actor.name }} Quitte le sentier et retourne dans le bois.
+  - id: sentier-000
+    location: sentier-000
+    direction: ouest
+    events:
+      enter-portal:
+        actor   : "Vous allez sur le sentier."  
+        observer: "{{ actor.name }} vous quitte et va sur le sentier."
+      leave-portal:
+        observer: "{{ actor.name }} vous rejoint sur le sentier."
+---
+
 id: portal-parking-arbre-000
 type: Portal
 exits:
@@ -430,6 +506,7 @@ events:
         - type  : ChangePropEffect
           modifs: -object:light-on
 
+<<<<<<< HEAD
 id: cafeteria-000
 type: Location
 props:
@@ -501,3 +578,35 @@ exits:
         observer: "{{ actor.name }} vous quitte et sort de la cafeteria."
       leave-portal:
         observer: "{{ actor.name }} vous rejoint dans la cafeteria."
+=======
+
+---
+  id: carotte-000
+type: Thing
+name: carotte
+props:
+  - takable
+  - key-for-licorne-000
+events:
+  info:
+    actor: "Une carotte."
+  look:
+    actor: |
+      C'est une carotte de type légume. Tu peux de faire beaucoup de choses avec ;)
+
+---
+id: portal-licorne-000
+type: Portal
+exits:
+  - id: portal-licorne-000-exit-1
+    location: sentier-000
+    events:
+      enter-portal:
+        actor: |
+          Un arc-en-ciel sort de la corne de la licorne et vous aspire.
+        observer: "{{ actor.name }} est aspiré."
+      leave-portal:
+        actor   : "Vous revenez dans le monde réel en face de la licorne."
+        observer: "{{ actor.name }} revient dans le monde réel."
+---
+>>>>>>> 1edb7d8c57cfbc19d9a03bb496a8ecfe94d5caa2
