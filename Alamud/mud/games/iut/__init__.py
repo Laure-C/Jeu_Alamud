@@ -5,7 +5,7 @@
 from mud.actions import (
     GoAction, TakeAction, LookAction, InspectAction, OpenAction,
     OpenWithAction, CloseAction, TypeAction, InventoryAction,
-    LightOnAction, LightOffAction, DropAction, DropInAction,
+    LightOnAction, LightOffAction,LightWithAction, DropAction, DropInAction,
     PushAction, TeleportAction, EnterAction, LeaveAction,
 )
 
@@ -25,6 +25,7 @@ def make_rules():
         (InspectAction  , r"(?:r|regarder|lire|inspecter|observer) %s(\S+)" % DETS),
         (OpenAction     , r"ouvrir %s(\S+)" % DETS),
         (OpenWithAction , r"ouvrir %s(\S+) avec %s(\w+)" % (DETS,DETS)),
+        (LightWithAction, r"allumer %s(\S+) avec %s(\w+)"% (DETS,DETS)),
         (CloseAction    , r"fermer %s(\S+)" % DETS),
         (TypeAction     , r"(?:taper|[eé]crire) (\S+)$"),
         (InventoryAction, r"(?:inventaire|inv|i)$"),
