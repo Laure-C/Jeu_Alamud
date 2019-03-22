@@ -54,39 +54,39 @@ exits:
         observer: "{{ actor.name }} vous rejoint dans le bois."
 ---
 
-id: sentier-000
-type: Container
-name: sentier
-events:
-  look:
-    actor: |
-      C'est un petit sentier dans le bois.
-contains:
-  - licorne-000
----
-id: portal-bois-sentier-000
-type: Portal
-exits:
-  - id: bois-000-
-    location: bois-000
-    direction: est
-    events:
-      enter-portal:
-        actor   : "Vous vous dirigez vers le sentier."
-        observer: "{{ actor.name }} se dirige vers le sentier."
-      leave-portal:
-        observer: |
-          {{ actor.name }} Quitte le sentier et retourne dans le bois.
-  - id: sentier-000
-    location: sentier-000
-    direction: ouest
-    events:
-      enter-portal:
-        actor   : "Vous allez sur le sentier."  
-        observer: "{{ actor.name }} vous quitte et va sur le sentier."
-      leave-portal:
-        observer: "{{ actor.name }} vous rejoint sur le sentier."
----
+# id: sentier-000
+# type: Container
+# name: sentier
+# events:
+#   look:
+#     actor: |
+#       C'est un petit sentier dans le bois.
+# contains:
+#   - licorne-000
+# ---
+# id: portal-bois-sentier-000
+# type: Portal
+# exits:
+#   - id: bois-000-
+#     location: bois-000
+#     direction: est
+#     events:
+#       enter-portal:
+#         actor   : "Vous vous dirigez vers le sentier."
+#         observer: "{{ actor.name }} se dirige vers le sentier."
+#       leave-portal:
+#         observer: |
+#           {{ actor.name }} Quitte le sentier et retourne dans le bois.
+#   - id: sentier-000
+#     location: sentier-000
+#     direction: ouest
+#     events:
+#       enter-portal:
+#         actor   : "Vous allez sur le sentier."  
+#         observer: "{{ actor.name }} vous quitte et va sur le sentier."
+#       leave-portal:
+#         observer: "{{ actor.name }} vous rejoint sur le sentier."
+# ---
 
 id: portal-parking-arbre-000
 type: Portal
