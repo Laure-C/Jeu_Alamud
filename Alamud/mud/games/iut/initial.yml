@@ -450,7 +450,7 @@ props:
   - pushable
 events:
   look:
-    actor: |
+    actor: |---
       Un bouton étiqueté: <i>Taxi Service</i>.
   push:
     actor: |
@@ -460,8 +460,8 @@ events:
       {{ actor.name }} appuie sur le bouton, mais rien ne
       semble se produire.
     effects:
-      - type  : ChangePropEffect
-        modifs: =portal-ordinateur-cabane-exit-2:activated
+      - type  : ChangePropEffect---
+        modifs: =portal-ordinate---
       - type  : NarrativeEffect
         at    : =salle-22-000
         key   : bouton-cabane
@@ -497,7 +497,7 @@ events:
         - type  : ChangePropEffect
           modifs: object:light-on
   light-off:
-    - props : -object:light-on
+    - props : -object:light-on---
       actor : "La lampe est déjà éteinte."
     - actor : "Vous éteignez votre lampe-torche."
       observer: |
@@ -514,7 +514,7 @@ props:
   - takable
 names   :
   - lampe
-  - torche
+  - torche---
   - lampe-torche
 gender: fem
 events:
@@ -607,4 +607,44 @@ exits:
       leave-portal:
         actor   : "Vous revenez dans le monde réel en face de la licorne."
         observer: "{{ actor.name }} revient dans le monde réel."
+---
+id: flambeau-000
+type : Thing
+props :
+  - light-with
+  - takable
+names :
+  - flambeau
+events :
+  info : 
+    actor :
+      - props : =flambeau-000:light-with
+      data : "un flambeau en feu"
+      - data : "un flambeau éteint. Peut être allumé avec un objet igniteur"
+  look :
+    actor :
+      -props : object:light-with
+      data : "un flambeau en feu"
+      - data : "un flambeau éteint."
+  light-with:
+    -props : object:light-with
+    actor : "le flambeau est déjà allumé"
+    -actor : "Vous allumez le flambeau"
+    effects :
+      -type : ChangePropEffect
+      modifs:
+        -object:light-with
+        -object:light-on
+---
+
+id: briquet-000
+type : Thing
+props :
+  - lighter
+  - takable
+names :
+  - briquet
+events :
+  info : 
+    actor : "un briquet sert à allumer un objet inflammable"
 ---
