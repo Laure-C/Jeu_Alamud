@@ -34,4 +34,3 @@ class LightWithEvent(Event3):
             self.fail()
             return self.inform("light-with.failed")
         self.inform("light-with")
-        self.inform("light-on")

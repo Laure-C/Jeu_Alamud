@@ -581,10 +581,9 @@ events:
 #         actor   : "Vous sortez prudemment de la cafeteria."  
 #         observer: "{{ actor.name }} vous quitte et sort de la cafeteria."
 #       leave-portal:
-#         observer: "{{ actor.name }} vhttp://localhost:9999/ous rejoint dans la cafeteria."
-#http://localhost:9999/
-# ---http://localhost:9999/
-#   id: carotte-000
+#         observer: "{{ actor.name }} vous rejoint dans la cafeteria."
+# ---
+# id: carotte-000
 # type: Thing
 # name: carotte
 # props:
@@ -619,40 +618,40 @@ events:
 id: flambeau-000
 type: Thing
 props:
-  - light-with
+  - lightable-with
   - takable
-names:
+names   :
   - flambeau
 events:
-  info: 
-    actor:
-      - props: =flambeau-000:light-with
-        data: "un flambeau en feu"
-      - data: "un flambeau éteint. Peut être allumé avec un objet igniteur"
+  info:
+    actor: 
+    - props: =flambeau-000:lightable-with
+      data: "Un flambeau en feu ."
+    - data: "Un flambeau éteint. Peut être allumé avec un objet igniteur."
   look:
     actor:
-      - props: object:light-with - object:light-on
-        data: "un flambeau en feu"
-      - data: "un flambeau allumé."
+    - props: object:light-with 
+      data: "Un flambeau en feu."
+    - data: "Un flambeau éteint."
   light-with:
   - props: object:light-with
-    actor: "le flambeau est déjà allumé"
-  - actor: "Vous allumez le flambeau"
+    actor: "Le flambeau est déjà allumé."
+  - actor: "Vous allumez le flambeau."
+    observer: |
+      {{actor.name}} allume son flambeau
     effects:
     - type: ChangePropEffect
-      modifs:
-        - object:light-with
-        - object:light-on
+      modifs: 
+      - object:lightable-with
+      - object:light-on
 ---
-
 id: briquet-000
 type: Thing
 props:
-  - lighter
   - takable
-names:
+  - lighter
+names   :
   - briquet
 events:
-  info: 
-    actor: "un briquet sert à allumer un objet inflammable"
----
+  info:
+    actor: "Un briquet. Sert à allumer un objet inflamable."
