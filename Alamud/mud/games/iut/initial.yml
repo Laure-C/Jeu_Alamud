@@ -3,6 +3,8 @@ id: parking-000
 type: Location
 contains:
   - lampe-000
+  - flambeau-000
+  - briquet-000
 events:
   info:
     actor: "Parking de l'IUT."
@@ -13,46 +15,46 @@ events:
       Les branches les plus basses sont à portée de main.
 
 ---
-id: Bois-000
-type: Location
-contains:
-  - carotte-000
-events:
-  info:
-    actor: "Bois en face de l'IUT."
-    observer: "{{ actor.name }} est dans le bois en face de l'IUT."
-  look:
-    actor: |
-      Vous êtes dans le petit bois en face de l'IUT.
-      Il y a un sentier là ou les gens passent a l'est. 
-      Au Nord il y a le parking de l'IUT et au Sud il y à la station TOTAL.
-parts:
-  - sentier-000
----
-id: portal-parking-bois-000
-type: Portal
-exits:
-  - id: parking-000-haut
-    location: parking-000
-    direction: sud
-    events:
-      enter-portal:
-        actor   : "Vous vous dirigez vers le bois."
-        observer: "{{ actor.name }} traverse la rue pour aller dans le bois."
-      leave-portal:
-        observer: |
-          {{ actor.name }} sort du bois et rejoint
-          sur le parking de l'IUT.
-  - id: bois-000
-    location: bois-000
-    direction: nord
-    events:
-      enter-portal:
-        actor   : "Vous sortez du bois et rejoignez le parking"  
-        observer: "{{ actor.name }} vous quitte et rejoint le parking."
-      leave-portal:
-        observer: "{{ actor.name }} vous rejoint dans le bois."
----
+# id: Bois-000
+# type: Location
+# # contains:
+# #   - carotte-000
+# events:
+#   info:
+#     actor: "Bois en face de l'IUT."
+#     observer: "{{ actor.name }} est dans le bois en face de l'IUT."
+#   look:
+#     actor: |
+#       Vous êtes dans le petit bois en face de l'IUT.
+#       Il y a un sentier là ou les gens passent a l'est. 
+#       Au Nord il y a le parking de l'IUT et au Sud il y à la station TOTAL.
+# # parts:
+# #   - sentier-000
+# ---
+# id: portal-parking-bois-000
+# type: Portal
+# exits:
+#   - id: parking-000-haut
+#     location: parking-000
+#     direction: sud
+#     events:
+#       enter-portal:
+#         actor   : "Vous vous dirigez vers le bois."
+#         observer: "{{ actor.name }} traverse la rue pour aller dans le bois."
+#       leave-portal:
+#         observer: |
+#           {{ actor.name }} sort du bois et rejoint
+#           sur le parking de l'IUT.
+#   - id: bois-000
+#     location: bois-000
+#     direction: nord
+#     events:
+#       enter-portal:
+#         actor   : "Vous sortez du bois et rejoignez le parking"  
+#         observer: "{{ actor.name }} vous quitte et rejoint le parking."
+#       leave-portal:
+#         observer: "{{ actor.name }} vous rejoint dans le bois."
+# ---
 
 # id: sentier-000
 # type: Container
@@ -450,7 +452,7 @@ props:
   - pushable
 events:
   look:
-    actor: |---
+    actor: |
       Un bouton étiqueté: <i>Taxi Service</i>.
   push:
     actor: |
@@ -484,7 +486,8 @@ events:
       - data : "Une lampe-torche éteinte."
   look:
     actor:
-      - props: object:light-on
+      - props: object:light-on  - light-with
+
         data : "Une lampe-torche allumée."
       - data : "Une lampe-torche éteinte."
   light-on:
@@ -566,7 +569,8 @@ events:
 #         actor   : "Vous entrez dans la cafeteria."
 #         observer: "{{ actor.name }} entre dans la cafeteria."
 #       leave-portal:
-#         observer: |
+#         obser props : =flambeau-000:light-with
+#      dver: |
 #           {{ actor.name }} sort de la cafeteria et vous rejoint
 #           sur le parking de l'IUT.
 #   - id: cafeteria-000-bas
@@ -577,9 +581,9 @@ events:
 #         actor   : "Vous sortez prudemment de la cafeteria."  
 #         observer: "{{ actor.name }} vous quitte et sort de la cafeteria."
 #       leave-portal:
-#         observer: "{{ actor.name }} vous rejoint dans la cafeteria."
-
-# ---
+#         observer: "{{ actor.name }} vhttp://localhost:9999/ous rejoint dans la cafeteria."
+#http://localhost:9999/
+# ---http://localhost:9999/
 #   id: carotte-000
 # type: Thing
 # name: carotte
@@ -613,42 +617,42 @@ events:
 
 ---
 id: flambeau-000
-type : Thing
-props :
+type: Thing
+props:
   - light-with
   - takable
-names :
+names:
   - flambeau
-events :
-  info : 
-    actor :
-      - props : =flambeau-000:light-with
-      data : "un flambeau en feu"
-      - data : "un flambeau éteint. Peut être allumé avec un objet igniteur"
-  look :
-    actor :
-      -props : object:light-with
-      data : "un flambeau en feu"
-      - data : "un flambeau éteint."
+events:
+  info: 
+    actor:
+      - props: =flambeau-000:light-with
+        data: "un flambeau en feu"
+      - data: "un flambeau éteint. Peut être allumé avec un objet igniteur"
+  look:
+    actor:
+      - props: object:light-with - object:light-on
+        data: "un flambeau en feu"
+      - data: "un flambeau allumé."
   light-with:
-    -props : object:light-with
-    actor : "le flambeau est déjà allumé"
-    -actor : "Vous allumez le flambeau"
-    effects :
-      -type : ChangePropEffect
+  - props: object:light-with
+    actor: "le flambeau est déjà allumé"
+  - actor: "Vous allumez le flambeau"
+    effects:
+    - type: ChangePropEffect
       modifs:
-        -object:light-with
-        -object:light-on
+        - object:light-with
+        - object:light-on
 ---
 
 id: briquet-000
-type : Thing
-props :
+type: Thing
+props:
   - lighter
   - takable
-names :
+names:
   - briquet
-events :
-  info : 
-    actor : "un briquet sert à allumer un objet inflammable"
+events:
+  info: 
+    actor: "un briquet sert à allumer un objet inflammable"
 ---

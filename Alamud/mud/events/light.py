@@ -23,13 +23,13 @@ class LightOffEvent(Event2):
             return self.inform("light-off.failed")
         self.inform("light-off")
 
+
 class LightWithEvent(Event3):
     NAME = "light-with"
-
-     def perform(self):
-         if not self.object.has_prop("lightable-with"):
-             self.fail()
-             return self.inform("light-with.failed")
+    def perform(self):
+        if not self.object.has_prop("lightable-with"):
+            self.fail()
+            return self.inform("light-with.failed")
         if not self.object2.has_prop("lighter"):
             self.fail()
             return self.inform("light-with.failed")
