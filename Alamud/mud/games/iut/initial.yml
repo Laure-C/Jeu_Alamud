@@ -5,6 +5,7 @@ contains:
   - lampe-000
   - flambeau-000
   - briquet-000
+  - carotte-000
 events:
   info:
     actor: "Parking de l'IUT."
@@ -12,83 +13,87 @@ events:
     actor: |
       Vous êtes sur le parking de l'IUT.  Au nord-est, se trouve
       l'entrée du département info.  Il y a un arbre près de vous.
-      Les branches les plus basses sont à portée de main.
+      Les branches les plus basses sont à portée de main. Au sud,
+      se trouve un bois sombre, avec un objet precieux. A l'ouest,
+      il y a une cafeteria.
 
 ---
-# id: Bois-000
-# type: Location
-# # contains:
-# #   - carotte-000
-# events:
-#   info:
-#     actor: "Bois en face de l'IUT."
-#     observer: "{{ actor.name }} est dans le bois en face de l'IUT."
-#   look:
-#     actor: |
-#       Vous êtes dans le petit bois en face de l'IUT.
-#       Il y a un sentier là ou les gens passent a l'est. 
-#       Au Nord il y a le parking de l'IUT et au Sud il y à la station TOTAL.
-# # parts:
-# #   - sentier-000
-# ---
-# id: portal-parking-bois-000
-# type: Portal
-# exits:
-#   - id: parking-000-haut
-#     location: parking-000
-#     direction: sud
-#     events:
-#       enter-portal:
-#         actor   : "Vous vous dirigez vers le bois."
-#         observer: "{{ actor.name }} traverse la rue pour aller dans le bois."
-#       leave-portal:
-#         observer: |
-#           {{ actor.name }} sort du bois et rejoint
-#           sur le parking de l'IUT.
-#   - id: bois-000
-#     location: bois-000
-#     direction: nord
-#     events:
-#       enter-portal:
-#         actor   : "Vous sortez du bois et rejoignez le parking"  
-#         observer: "{{ actor.name }} vous quitte et rejoint le parking."
-#       leave-portal:
-#         observer: "{{ actor.name }} vous rejoint dans le bois."
-# ---
+id: bois-000
+type: Location
+contains:
+  - carotte-000
+events:
+  info:
+    actor: "Bois en face de l'IUT."
+    observer: "{{ actor.name }} est dans le bois en face de l'IUT."
+  look:
+      actor: |
+        Vous êtes dans le petit bois en face de l'IUT.
+        Il y a un sentier là ou les gens passent a l'est. 
+        Au Nord il y a le parking de l'IUT et au Sud il y à la station TOTAL.
+parts:
+  - sentier-000
 
-# id: sentier-000
-# type: Container
-# name: sentier
-# events:
-#   look:
-#     actor: |
-#       C'est un petit sentier dans le bois.
-# contains:
-#   - licorne-000
-# ---
-# id: portal-bois-sentier-000
-# type: Portal
-# exits:
-#   - id: bois-000-
-#     location: bois-000
-#     direction: est
-#     events:
-#       enter-portal:
-#         actor   : "Vous vous dirigez vers le sentier."
-#         observer: "{{ actor.name }} se dirige vers le sentier."
-#       leave-portal:
-#         observer: |
-#           {{ actor.name }} Quitte le sentier et retourne dans le bois.
-#   - id: sentier-000
-#     location: sentier-000
-#     direction: ouest
-#     events:
-#       enter-portal:
-#         actor   : "Vous allez sur le sentier."  
-#         observer: "{{ actor.name }} vous quitte et va sur le sentier."
-#       leave-portal:
-#         observer: "{{ actor.name }} vous rejoint sur le sentier."
-# ---
+---
+id: portal-parking-bois-000
+type: Portal
+exits:
+  - id: parking-000-sud
+    location: parking-000
+    direction: sud
+    events:
+      enter-portal:
+        actor   : "Vous vous dirigez vers le bois."
+        observer: "{{ actor.name }} traverse la rue pour aller dans le bois."
+      leave-portal:
+        observer: |
+          {{ actor.name }} sort du bois et rejoint
+          sur le parking de l'IUT.
+  - id: bois-000-nord
+    location: bois-000
+    direction: nord
+    events:
+      enter-portal:
+        actor   : "Vous sortez du bois et rejoignez le parking"  
+        observer: "{{ actor.name }} vous quitte et rejoint le parking."
+      leave-portal:
+        observer: "{{ actor.name }} vous rejoint dans le bois."
+---
+
+id: sentier-000
+type: Location
+name: sentier
+events:
+  look:
+    actor: |
+      C'est un petit sentier dans le bois.
+contains:
+  - licorne-000
+
+---
+id: portal-bois-sentier-000
+type: Portal
+exits:
+  - id: bois-000-est
+    location: bois-000
+    direction: est
+    events:
+      enter-portal:
+        actor   : "Vous vous dirigez vers le sentier."
+        observer: "{{ actor.name }} se dirige vers le sentier."
+      leave-portal:
+        observer: |
+          {{ actor.name }} Quitte le sentier et retourne dans le bois.
+  - id: sentier-000-ouest
+    location: sentier-000
+    direction: ouest
+    events:
+      enter-portal:
+        actor   : "Vous allez sur le sentier."  
+        observer: "{{ actor.name }} vous quitte et va sur le sentier."
+      leave-portal:
+        observer: "{{ actor.name }} vous rejoint sur le sentier."
+---
 
 id: portal-parking-arbre-000
 type: Portal
@@ -473,6 +478,7 @@ type: Thing
 props:
   - lightable
   - takable
+  - key-for-cafet-cafeteria-000
 names   :
   - lampe
   - torche
@@ -509,109 +515,144 @@ events:
         - type  : ChangePropEffect
           modifs: -object:light-on
 
-#---
-# id: cafeteria-000
-# type: Location
-# props:
-#   - lightable
-#   - takable
-# names   :
-#   - lampe
-#   - torche---
-#   - lampe-torche
-# gender: fem
-# events:
-#   info:
-#     actor:
-#       - props: =lampe-000:light-on
-#         data : "Une lampe-torche allumée."
-#       - data : "Une lampe-torche éteinte."
-#   look:
-#     actor:
-#       - props: object:light-on
-#         data : "Une lampe-torche allumée."
-#       - data : "Une lampe-torche éteinte."
-#   light-on:
-#     - props : object:light-on
-#       actor : "La lampe est déjà allumée."
-#     - actor : "Vous allumez votre lampe-torche."
-#       observer: |
-#         {{ actor.name }} allume sa lampe-torche.
-#       effects:
-#         - type  : ChangePropEffect
-#           modifs: object:light-on
-#   light-off:
-#     - props : -object:light-on
-#       actor : "La lampe est déjà éteinte."
-#     - actor : "Vous éteignez votre lampe-torche."
-#       observer: |
-#         {{ actor.name }} éteind sa lampe-torche.
-#       effects:
-#         - type  : ChangePropEffect
-#           modifs: -object:light-on
-# events:
-#   info:
-#     actor: "Cafeteria de l'IUT."
-#   look:
-#     actor: |
-#       Vous êtes dans la cafetaria de l'IUT.
-#       Au sud-ouest, se trouve la porte d'entrée de la cafeteria. Un bar 
-#       vous permettra de commander à manger. 
-
-# id: portal-parking-cafeteria-000
-# type: Portal
-# exits:
-#   - id: parking-000-haut
-#     location: parking-000
-#     direction: haut
-#     events:
-#       enter-portal:
-#         actor   : "Vous entrez dans la cafeteria."
-#         observer: "{{ actor.name }} entre dans la cafeteria."
-#       leave-portal:
-#         obser props : =flambeau-000:light-with
-#      dver: |
-#           {{ actor.name }} sort de la cafeteria et vous rejoint
-#           sur le parking de l'IUT.
-#   - id: cafeteria-000-bas
-#     location: cafeteria-000
-#     direction: bas
-#     events:
-#       enter-portal:
-#         actor   : "Vous sortez prudemment de la cafeteria."  
-#         observer: "{{ actor.name }} vous quitte et sort de la cafeteria."
-#       leave-portal:
-#         observer: "{{ actor.name }} vous rejoint dans la cafeteria."
-# ---
-# id: carotte-000
-# type: Thing
-# name: carotte
-# props:
-#   - takable
-#   - key-for-licorne-000
-# events:
-#   info:
-#     actor: "Une carotte."
-#   look:
-#     actor: |
-#       C'est une carotte de type légume. Tu peux de faire beaucoup de choses avec ;)
-
-# ---
-# id: portal-licorne-000
-# type: Portal
-# exits:
-#   - id: portal-licorne-000-exit-1
-#     location: sentier-000
-#     events:
-#       enter-portal:
-#         actor: |
-#           Un arc-en-ciel sort de la corne de la licorne et vous aspire.
-#         observer: "{{ actor.name }} est aspiré."
-#       leave-portal:
-#         actor   : "Vous revenez dans le monde réel en face de la licorne."
-#         observer: "{{ actor.name }} revient dans le monde réel."
+---
+id: cafeteria-000
+type: Location
+contains:
+  - cookie-000
+events:
+  info:
+    actor: "Cafeteria de l'IUT."
+  look:
+    actor: |
+      Vous êtes dans la cafetaria de l'IUT.
+      Au sud-ouest, se trouve la porte d'entrée de la cafeteria. Sur le comptoir se trouve un cookie.
 
 
+---
+ id: cookie-000
+ type: Thing
+ name: cookie
+ props:
+   - takable
+   
+ events:
+   info:
+     actor: "Un cookie."
+   look:
+     actor: |
+       C'est un cookie de type patisserie. Tu peux de faire beaucoup de choses avec ;)
+
+---
+id: portal-parking-cafeteria-000
+type: Portal
+props:
+  - closed
+  - closable
+exits:
+  - id: parking-000-ouest
+    location: parking-000
+    direction: ouest
+    name:
+      - cafet
+    gender: fem
+    props:
+      - for-enter
+    events:
+      enter-portal:
+        actor     : "Vous entrez dans la cafeteria."
+        observer  : "{{ actor.name }} entre dans la cafeteria."
+        failed:
+          actor   : &porte001 |
+            La porte de la cafeteria est ouverte mais vous n'y voyez rien. 
+            Il vous faut de la lumière.
+          observer: &porte002 |
+            {{ actor.name }} tente de rentrer dans la cafeteria.
+      leave-portal:
+        actor     : "Vous sortez de la cafeteria."
+        observer  : "{{ actor.name }} sort de la cafeteria."
+      open        :
+        - props   : portal:closed
+          actor   : *porte001
+          observer: *porte002
+        - props   : -portal:closed
+          actor   : &porte003 "Vous avez déjà de la lumière"
+      open-with   :
+        - props   :
+            - portal:closed
+            - object2:key-for-cafet-cafeteria-000
+          effects :
+            type  : ChangePropEffect
+            modifs:
+              - -portal:closed
+          actor   : |
+            Vous voyez enfin ce qu'il y a à l'interieur de la cafeteria.
+          observer: |
+            {{ actor.name }} s'introduit à l'interieur de la cafeteria avec un objet lumineux.
+        - props   :
+            - portal:closed
+            - -object2:key-for-cafet-cafeteria-000
+          actor   : |
+            Vous tentez vainement d'entrer sans lumière mais avec
+            {{ object2.noun_the() }}
+          observer: |
+            {{ actor.name }} tente vainement d'entrer sans lumière dans la cafétaria mais avec 
+            {{ object2.noun_a() }}
+        - props   :
+            - -portal:closed
+          actor   : *porte003
+          observer: |
+            {{ actor.name }} reussi à s'introduire dans la cafeteria car sa lampe torche est allumée.
+      close       : &porte004
+        - props   : portal:closed
+          actor   : "Vous partez de la cafeteria."
+          observer: "{{ actor.name }} quitte la cafeteria."
+          effects :
+            - type  : ChangePropEffect
+              modifs: =portal-porche-hall-000:closed
+      close-with  : *porte004
+  - id: cafeteria-000-sud-ouest
+    location: cafeteria-000
+    direction: sud-ouest
+    name: cafet
+    gender: fem
+    props:
+      - for-leave
+    events:
+      enter-portal:
+        observer  : "{{ actor.name }} sort de la cafeteria."
+        failed:
+          actor   : |
+            La porte de la cafeteria est ouverte mais il n'y pas de lumière,
+            il faut une lampe torche pour pouvoir y voir quelque chose.
+          observer: |
+            {{ actor.name }} tente en vain de sortir de la cafeteria.
+---
+ id: carotte-000
+ type: Thing
+ name: carotte
+ props:
+  - takable
+   
+ events:
+   info:
+     actor: "Une carotte."
+   look:
+     actor: |
+       C'est une carotte de type légume. Tu peux de faire beaucoup de choses avec ;)
+
+---
+id: licorne-000
+type: Thing
+name: licorne
+props: 
+  - feedable
+events:
+  info:
+    actor: "Une licorne se dresse devant vous, n'attendant qu'une chose... de la nourriture. Mais pas n'importe quelle nourriture... Ça pourrait être fatale si une erreur était faite."
+  look:
+    actor: |
+      Une licorne se dresse devant vous, n'attendant qu'une chose... de la nourriture.
 
 
 ---
